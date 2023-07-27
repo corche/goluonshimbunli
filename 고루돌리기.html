@@ -1,0 +1,177 @@
+<!DOCTYPE Html>
+<html>
+	<head>
+		<title>고루 원심분리</title>
+	</head>
+	<style>
+		.t{padding: 100vh 0 0 100vw; transform: translate(-50%, -50%); width: 1000vw;}
+		.t1{font-size: 6em; color: white; text-align: center; font-weight: 900;}
+		body{background-color:white; height: 100vh; margin: 0; overflow: hidden;}
+		html{margin: 0;}
+		.ab{position: absolute; top: 0; left: 10px; font-size: 1.5em; font-weight: 600;}
+		.abd{position: absolute; top: 30px; left: 10px; font-size: 1.5em; font-weight: 600;}
+		.controll{position: absolute; top: 0; right: 5px; font-size: 1.1em; font-weight: 600;}
+		.buttons{position: absolute; top: 100px; left: 0;}
+		.buttons button{padding: 5px 20px; margin: 0 10px; background-color: rgba(0,0,0,0); font-size: 1.1em; font-weight: 600; border: none; border-radius: 15px;}
+		.buttons button:hover{background-color: rgba(255,255,255,0.5);}
+		.buttonss{position: absolute; top: 140px; left: 0;}
+		.buttonss button{padding: 5px 20px; margin: 0 10px; background-color: rgba(0,0,0,0); font-size: 1.1em; font-weight: 600; border: none; border-radius: 15px;}
+		.buttonss button:hover{background-color: rgba(255,255,255,0.5);}
+		.color{width: 100vw; height: 100vh;}
+		.controll button{padding: 5px 20px; margin: 0 10px; background-color: rgba(0,0,0,0); font-size: 1.1em; font-weight: 600; border: none; border-radius: 15px;}
+		.controll button:hover{background-color: rgba(255,255,255,0.5);}
+	</style>
+	<body>
+		<div class="color">
+		<div class="t">
+			<div class="t1"><img src="https://cdn.discordapp.com/avatars/872836099687448636/c2d66b18c3889b0e94a53e86ece2039f.webp?size=2048"></div>
+		</div>
+		<div class="ab">t1</div>
+		<div class="abd">t2</div>
+		<div class="buttons"><button onclick="reset1()">고루 초기화</button><button onclick="reset2()">고루 원심분리 속도 초기화</button><button onclick="max()">최대속도</button></div>
+		<div class="buttonss"><button onclick="set1()">배경 밝게</button><button onclick="set2()">배경 어둡게</button></div>
+		<div class="controll">
+			Space를 눌러 고루 원심분리<br>
+			LShift를 눌러 감속<br>
+			RShift를 눌러 고루 강력하게 원심분리<br>
+			Backspace를 눌러 급감속<br>
+			<button onmousedown="buttononly(2)">고루 원심분리</button><button onmousedown="buttononly(1)">감속</button><br>
+			<button onmousedown="buttononly(3)">고루 강력하게 원심분리</button><button onmousedown="buttononly(4)">급감속</button>
+		</div>
+		</div>
+	</body>
+	<script>
+		let r = 255;
+		let g = 0;
+		let b = 0;
+		let a = 0.7;
+
+		let co = 0;
+		let ro = 0;
+		let wtf = 0;
+
+		let s = 0;
+		document.getElementsByClassName("t1")[0].style.rotate = '0'
+		
+		function reset1(){
+			co = 0;
+			ro = 0;
+		}
+		function reset2(){
+			wtf = 0;
+		}
+
+		function max(){
+			wtf = 359.55;
+		}
+		
+		function set1(){
+			document.body.style.backgroundColor = 'white'
+			a = 0.7
+		}
+		function set2(){
+			document.body.style.backgroundColor = 'black'
+			a = 0.3
+		}
+
+		function buttononly(code){
+			s = code;
+		}
+
+		setInterval(()=>{
+			if (r == 255 && b == 0){
+				if (g != 255 && r == 255){
+					g += 1
+				}
+			}
+			if (g == 255 && r == 0){
+				if (b != 255 && g == 255){
+					b += 1
+				}
+			}
+			if (b == 255 && g == 0){
+				if (r != 255 && b == 255){
+					r += 1
+				}
+			}
+			if ( r != 0 && g == 255 && b == 0){
+				r -= 1
+			}
+			if ( r == 0 && g != 0 && b == 255){
+				g -= 1
+			}
+			if ( r == 255 && g == 0 && b != 0){
+				b -= 1
+			}
+
+			setTimeout(()=>{document.querySelector(".color").style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`}, 50)
+			if (wtf > 359){
+				setTimeout(()=>{document.querySelector(".t1").style.color = `rgba(${g}, ${b}, ${r}, 1)`}, 50)
+			}else{document.querySelector(".t1").style.color = 'white'}
+			if(s === 1){
+					if(wtf < 3){
+						wtf -= 0.001
+					}else{
+					wtf -= 0.01}
+			}
+			if(s === 2){
+				if (wtf < 359){
+					if(wtf < 1){
+						wtf += 0.001
+					}else{
+					wtf += 0.01}}
+			}
+			if(s === 3){
+				if (wtf < 359){
+					wtf += 0.05}
+			}
+			if(s === 4){
+				if (wtf < 359){
+					wtf -= 0.05}
+			}
+			if (wtf > 0){
+				wtf -= 0.0005
+			}
+			if (wtf < 0){
+				wtf += 0.0005
+			}
+			if (wtf < 0){
+				// wtf = 0
+			}
+			ro += wtf
+			if (ro >= 360){
+				co += 1
+				ro = 0
+			}
+			if (ro <= -360){
+				co += 1
+				ro = 0
+			}
+			document.getElementsByClassName("t1")[0].style.rotate = `${ro}deg`
+			// document.getElementsByClassName("t1")[0].textContent = (document.querySelector("input").value).repeat(100)
+			document.getElementsByClassName("ab")[0].textContent = `고루 회전각: ${co}회, ${ro}°`
+			document.getElementsByClassName("abd")[0].textContent = `원심분리기 속도　: ${wtf}`
+		},1)
+			window.addEventListener('mouseup', function(event){
+				s = 0;
+			})
+			window.addEventListener('keydown', function(event){
+				console.log(event.code)
+				if(event.code === 'Space'){
+					s = 2
+				}
+				if(event.code === 'ShiftLeft'){
+					s = 1
+				}
+				if(event.code === 'ShiftRight'){
+					s = 3
+				}
+				if(event.code === 'Backspace'){
+					s = 4
+				}
+			})
+			window.addEventListener('keyup', function(event){
+				s = 0
+			})
+	</script>
+</html>
